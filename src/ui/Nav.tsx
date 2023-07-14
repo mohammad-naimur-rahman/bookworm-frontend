@@ -1,14 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { useEffect, useState } from 'react';
+import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo/bookorm-logo.png';
 
 export default function Nav() {
+  const themeValue = localStorage.getItem('theme');
+  const [theme, settheme] = useState(themeValue || 'light');
+
+  useEffect(() => {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   return (
-    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full">
+    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10">
       <div className="navbar-start">
-        <img src={logo} alt="bookworm" className="w-20 h-auto" />
+        <Link to="/">
+          <div className="flex items-center cursor-pointer">
+            <img src={logo} alt="bookworm" className="w-20 h-auto" />
+            <p className="text-secondary text-3xl italic ml-3 font-bold">
+              Bookworm
+            </p>
+          </div>
+        </Link>
       </div>
       <div className="navbar-center">
         <ul className="flex">
@@ -24,7 +42,17 @@ export default function Nav() {
         </ul>
       </div>
       <div className="navbar-end">
-        <div className="dropdown dropdown-end">
+        <BsFillSunFill />
+        <input
+          type="checkbox"
+          className="toggle mx-2"
+          onChange={() => {
+            settheme(theme === 'night' ? 'light' : 'night');
+          }}
+          checked={theme === 'night'}
+        />
+        <BsMoonStars />
+        <div className="dropdown dropdown-end ml-5">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <div className="indicator">
               <svg

@@ -34,6 +34,9 @@ module.exports = {
     'comma-dangle': 'off',
     '@typescript-eslint/comma-dangle': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/interactive-supports-focus': 0,
   },
   ignorePatterns: [
     '*.config.js',

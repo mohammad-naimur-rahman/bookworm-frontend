@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import heroBook2 from '../assets/images/eat-that-frog.jpg';
+import frame7 from '../assets/images/frames/Frame-1-10.png';
 import frame3 from '../assets/images/frames/Frame-11-10.png';
 import frame4 from '../assets/images/frames/Frame-12-10.png';
 import frame6 from '../assets/images/frames/Frame-13-10.png';
@@ -15,32 +17,42 @@ export default function Homepage() {
         <img
           src={frame1}
           alt="frame1"
-          className="absolute top-16 left-5 w-60"
+          className="absolute top-16 left-5 w-60 animate-bounceInOut"
         />
         <img
           src={frame2}
           alt="frame1"
-          className="absolute top-36 right-2/3 w-60"
+          className="absolute top-36 right-2/3 w-60 animate-bounceOutIn"
         />
         <img
           src={frame3}
           alt="frame2"
-          className="absolute bottom-20 left-20 w-60"
+          className="absolute bottom-20 left-20 w-60 animate-bounceInOut"
         />
         <img
           src={frame4}
           alt="frame1"
-          className="absolute bottom-48 left-[500px] w-60"
+          className="absolute bottom-48 left-[500px] w-60 animate-bounceOutIn"
+        />
+        <img
+          src={frame7}
+          alt="frame1"
+          className="absolute bottom-96 left-[550px] w-60 animate-bounceInOut"
         />
         <section className="w-3/5 pl-20">
           <h1 className="text-7xl">Welcome</h1>
           <h1 className="text-7xl py-5">To</h1>
           <h1 className="text-7xl">Bookworm</h1>
           <p className="text-4xl pt-5">Read books like bookworm!</p>
+          <Link to="/all-books">
+            <button type="button" className="btn btn-secondary mt-5">
+              Browse all books &rarr;
+            </button>
+          </Link>
         </section>
 
         <section className="w-2/5 z-0">
-          <div className="bg-primary h-full min-h-[50vh] relative">
+          <div className="bg-secondary h-full min-h-[50vh] relative">
             <div className="absolute -top-24 left-1/2 z-10">
               <img src={heroBook1} alt="Power of habit" className="w-4/5" />
             </div>

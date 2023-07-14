@@ -5,18 +5,6 @@ export default {
     container: {
       center: true,
     },
-    color: {
-      // bg: '#212529',
-      // primary: '#276678',
-      // secondary: '#1687A7',
-      // light: '#D3E0EA',
-      // white: '#FFF6F4',
-      // gray: '#7E7E7E',
-      // black: '#2F2F2F',
-      // text: '#212529',
-      // heading: '#27374D',
-      // subheading: '#526D82',
-    },
     screens: {
       xl: { max: '1200px' },
       lg: { max: '992px' },
@@ -26,7 +14,24 @@ export default {
       xxsm: { max: '400px' },
       xxxsm: { max: '300px' },
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        bounceInOut: {
+          '0%, 25%': { transform: 'translateY(-10px)' },
+          '25%, 75%': { transform: 'translateY(20px)' },
+          '75%, 100%': { transform: 'translateY(-10px)' },
+        },
+        bounceOutIn: {
+          '0%, 25%': { transform: 'translateY(15px)' },
+          '25%, 75%': { transform: 'translateY(-30px)' },
+          '75%, 100%': { transform: 'translateY(15px)' },
+        },
+      },
+      animation: {
+        bounceInOut: 'bounceInOut 5s linear infinite',
+        bounceOutIn: 'bounceOutIn 4s linear infinite',
+      },
+    },
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
