@@ -1,3 +1,9 @@
+import Layout from '../layout/Layout';
+
 export default function Homepage() {
-  return <div>Homepage</div>;
+  return (
+    <Layout>
+      <h1>Hello</h1>
+    </Layout>
+  );
 }
