@@ -6,11 +6,15 @@ import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 import { logoutUser } from '../redux/features/user/userSlice';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 import logo from '@/assets/logo/bookorm-logo.png';
 
 export default function Nav() {
+  const {
+    user: { email },
+  } = useAppSelector((state) => state.user);
+
   const dispatch = useAppDispatch();
   const themeValue = localStorage.getItem('theme');
   const [theme, settheme] = useState(themeValue || 'light');
@@ -42,9 +46,11 @@ export default function Nav() {
           <li className="mx-3">
             <Link to="/all-books">All Books</Link>
           </li>
-          <li className="mx-3">
-            <Link to="/create-book">Create book</Link>
-          </li>
+          {email ? (
+            <li className="mx-3">
+              <Link to="/create-book">Create book</Link>
+            </li>
+          ) : null}
           <li className="mx-3">
             <Link to="/">Summeries</Link>
           </li>
@@ -147,15 +153,20 @@ export default function Nav() {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li onClick={handleLogout}>
-              <a>logout</a>
-            </li>
+            {email ? (
+              <li onClick={handleLogout}>
+                <a>logout</a>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/signup">Signup</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <label tabIndex={0} className="btn btn-ghost btn-circle">

@@ -26,10 +26,10 @@ export default function Signup() {
     dispatch(createUser({ email: data.email, password: data.password }));
   };
   return (
-    <Layout title="Login">
+    <Layout title="Signup">
       <div className="min-h-[calc(100vh_-_80px)] flex flex-col justify-center">
         <h2 className="text-center text-3xl pt-10 pb-5">
-          Login | <span className="text-secondary font-bold">Bookworm</span>
+          Signup | <span className="text-secondary font-bold">Bookworm</span>
         </h2>
         <form
           className="flex flex-col gap-3 items-center justify-center"
@@ -64,7 +64,7 @@ export default function Signup() {
         <div className="divider" />
         <div className="flex justify-center pb-10">
           <button
-            className="btn btn-primary"
+            className="btn btn-accent"
             type="button"
             onClick={() => dispatch(loginUserWithGoogle())}
           >

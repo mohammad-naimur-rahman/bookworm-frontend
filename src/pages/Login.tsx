@@ -64,7 +64,7 @@ export default function Login() {
         <div className="divider" />
         <div className="flex justify-center pb-10">
           <button
-            className="btn btn-primary"
+            className="btn btn-accent"
             type="button"
             onClick={() => dispatch(loginUserWithGoogle())}
           >

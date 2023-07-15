@@ -62,7 +62,7 @@ export const createUser = createAsyncThunk(
             .then((res) => {
               if (res.data.success) {
                 localStorage.setItem('token', accessToken);
-                localStorage.setItem('userEmail', email);
+                localStorage.setItem('user-email', email);
                 toast.success('Signup successfull!');
               }
             })
@@ -141,7 +141,7 @@ export const loginUser = createAsyncThunk(
         if (apiResponse.data.success) {
           console.log(accessToken);
           localStorage.setItem('token', accessToken);
-          localStorage.setItem('userEmail', email);
+          localStorage.setItem('user-email', email);
           toast.success('Logged in successfully!');
         }
       }
@@ -180,6 +180,9 @@ export const loginUserWithGoogle = createAsyncThunk(
             .then((res) => {
               if (res.data.success) {
                 localStorage.setItem('token', accessToken);
+                if (user.email) {
+                  localStorage.setItem('user-email', user.email);
+                }
                 toast.success('Logged in successfully!');
               }
             })
@@ -205,6 +208,7 @@ export const logoutUser = createAsyncThunk(
   async (): Promise<void> => {
     try {
       await signOut(auth);
+      toast.success('Logged out successfully!');
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
