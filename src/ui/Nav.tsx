@@ -4,15 +4,15 @@
 import { useEffect, useState } from 'react';
 import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo/bookorm-logo.png';
+
+import logo from '@/assets/logo/bookorm-logo.png';
 
 export default function Nav() {
   const themeValue = localStorage.getItem('theme');
   const [theme, settheme] = useState(themeValue || 'light');
 
   useEffect(() => {
-    const html = document.documentElement;
-    html.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -32,6 +32,9 @@ export default function Nav() {
         <ul className="flex">
           <li className="mx-3">
             <Link to="/all-books">All Books</Link>
+          </li>
+          <li className="mx-3">
+            <Link to="/create-book">Create book</Link>
           </li>
           <li className="mx-3">
             <Link to="/">Summeries</Link>

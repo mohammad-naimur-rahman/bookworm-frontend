@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
-import heroBook2 from '../assets/images/eat-that-frog.jpg';
-import frame7 from '../assets/images/frames/Frame-1-10.png';
-import frame3 from '../assets/images/frames/Frame-11-10.png';
-import frame4 from '../assets/images/frames/Frame-12-10.png';
-import frame6 from '../assets/images/frames/Frame-13-10.png';
-import frame1 from '../assets/images/frames/Frame-14-10.png';
-import frame5 from '../assets/images/frames/Frame-17-8.png';
-import frame2 from '../assets/images/frames/Frame-3-12.png';
-import heroBook1 from '../assets/images/power-of-habit.jpg';
+
 import Layout from '../layout/Layout';
+
+import heroBook2 from '@/assets/images/eat-that-frog.jpg';
+import frame7 from '@/assets/images/frames/Frame-1-10.png';
+import frame3 from '@/assets/images/frames/Frame-11-10.png';
+import frame4 from '@/assets/images/frames/Frame-12-10.png';
+import frame6 from '@/assets/images/frames/Frame-13-10.png';
+import frame1 from '@/assets/images/frames/Frame-14-10.png';
+import frame5 from '@/assets/images/frames/Frame-17-8.png';
+import frame2 from '@/assets/images/frames/Frame-3-12.png';
+import heroBook1 from '@/assets/images/power-of-habit.jpg';
 
 export default function Homepage() {
   return (
