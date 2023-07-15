@@ -1,10 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
+import API_URL from '../../../config';
 import auth from '../../../lib/firebase';
 
 interface IInitialState {
@@ -34,27 +39,162 @@ export const createUser = createAsyncThunk(
   'user/createUser',
   async ({ email, password }: ICredentials): Promise<string | null> => {
     try {
+      const provider = new GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       );
+      const { user } = response;
+      if (user) {
+        user.getIdToken().then((accessToken) => {
+          axios
+            .post(
+              `${API_URL}/api/v1/auth/login`,
+              { email: user.email },
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              },
+            )
+            .then((res) => {
+              if (res.data.success) {
+                localStorage.setItem('token', accessToken);
+                localStorage.setItem('userEmail', email);
+                toast.success('Signup successfull!');
+              }
+            })
+            .catch(() => {
+              toast.error('Signup failed!');
+            });
+        });
+      }
       return response.user.email;
-    } catch (err) {
-      console.log(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error('Something went wrong!');
+      }
       return null;
     }
   },
 );
 
+// export const loginUser = createAsyncThunk(
+//   'user/loginUser',
+//   async ({ email, password }: ICredentials): Promise<string | null> => {
+//     const provider = new GoogleAuthProvider();
+//     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+//     const response = await signInWithEmailAndPassword(auth, email, password);
+//     const { user } = response;
+//     if (user) {
+//       user.getIdToken().then((accessToken) => {
+//         axios
+//           .post(
+//             `${API_URL}/api/v1/auth/login`,
+//             { email: user.email },
+//             {
+//               headers: {
+//                 Authorization: `Bearer ${accessToken}`,
+//               },
+//             },
+//           )
+//           .then((res) => {
+//             if (res.data.success) {
+//               localStorage.setItem('token', accessToken);
+//               toast.success('Logged in successfull!');
+//             }
+//           })
+//           .catch(() => {
+//             toast.error('Login failed!');
+//           });
+//       });
+//     } else {
+//       toast.error('Login failed!');
+//     }
+//     return response.user.email;
+//   },
+// );
+
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async ({ email, password }: ICredentials): Promise<string | null> => {
     try {
+      const provider = new GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       const response = await signInWithEmailAndPassword(auth, email, password);
+      const { user } = response;
+      if (user) {
+        const accessToken = await user.getIdToken();
+        const apiResponse = await axios.post(
+          `${API_URL}/api/v1/auth/login`,
+          { email: user.email },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        if (apiResponse.data.success) {
+          console.log(accessToken);
+          localStorage.setItem('token', accessToken);
+          localStorage.setItem('userEmail', email);
+          toast.success('Logged in successfully!');
+        }
+      }
       return response.user.email;
-    } catch (err) {
-      console.log(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error('Something went wrong!');
+      }
+      return null;
+    }
+  },
+);
+
+export const loginUserWithGoogle = createAsyncThunk(
+  'user/loginUserWithGoogle',
+  async (): Promise<string | null> => {
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+      const response = await signInWithPopup(auth, provider);
+      const { user } = response;
+      if (user) {
+        user.getIdToken().then((accessToken) => {
+          axios
+            .post(
+              `${API_URL}/api/v1/auth/login`,
+              { email: user.email },
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              },
+            )
+            .then((res) => {
+              if (res.data.success) {
+                localStorage.setItem('token', accessToken);
+                toast.success('Logged in successfully!');
+              }
+            })
+            .catch(() => {
+              toast.error('Login failed!');
+            });
+        });
+      }
+      return user.email;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error('Something went wrong!');
+      }
       return null;
     }
   },
@@ -65,8 +205,12 @@ export const logoutUser = createAsyncThunk(
   async (): Promise<void> => {
     try {
       await signOut(auth);
-    } catch (err) {
-      console.log(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error('Something went wrong!');
+      }
     }
   },
 );
@@ -110,6 +254,21 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.error = action.error.message!;
+      })
+      .addCase(loginUserWithGoogle.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(loginUserWithGoogle.fulfilled, (state, action) => {
+        state.user.email = action.payload!;
+        state.isError = false;
+        state.isLoading = false;
+      })
+      .addCase(loginUserWithGoogle.rejected, (state, action) => {
         state.isError = true;
         state.isLoading = false;
         state.error = action.error.message!;

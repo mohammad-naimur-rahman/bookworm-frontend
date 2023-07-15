@@ -39,6 +39,7 @@ module.exports = {
     'jsx-a11y/interactive-supports-focus': 0,
     'no-param-reassign': 0,
     'no-underscore-dangle': 0,
+    'react/jsx-props-no-spreading': 0,
     'import/order': [
       'error',
       {

@@ -5,9 +5,13 @@ import { useEffect, useState } from 'react';
 import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
+import { logoutUser } from '../redux/features/user/userSlice';
+import { useAppDispatch } from '../redux/hooks';
+
 import logo from '@/assets/logo/bookorm-logo.png';
 
 export default function Nav() {
+  const dispatch = useAppDispatch();
   const themeValue = localStorage.getItem('theme');
   const [theme, settheme] = useState(themeValue || 'light');
 
@@ -15,6 +19,11 @@ export default function Nav() {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    localStorage.clear();
+  };
 
   return (
     <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10">
@@ -144,7 +153,7 @@ export default function Nav() {
             <li>
               <Link to="/login">Login</Link>
             </li>
-            <li>
+            <li onClick={handleLogout}>
               <a>logout</a>
             </li>
           </ul>

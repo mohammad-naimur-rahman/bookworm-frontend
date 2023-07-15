@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { ReactNode, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { Toaster } from 'react-hot-toast';
 
 import auth from '../lib/firebase';
 import { setLoading, setUser } from '../redux/features/user/userSlice';
@@ -35,6 +36,7 @@ export default function Layout({ children, title }: Props) {
       <Nav />
       <main className="pt-20 container">{children}</main>
       <Footer />
+      <Toaster position="top-center" />
     </>
   );
 }
