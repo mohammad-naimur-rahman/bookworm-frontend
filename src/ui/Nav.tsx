@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
+import { removeFromReadingList } from '../redux/features/readingList/readingListSlice';
 import { logoutUser } from '../redux/features/user/userSlice';
 import { removeFromWishlist } from '../redux/features/wishlist/wishlistSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -17,6 +18,8 @@ export default function Nav() {
   } = useAppSelector((state) => state.user);
 
   const { total, books } = useAppSelector((state) => state.wishlist);
+  const { total: totalReadingListBooks, books: readingListBooks } =
+    useAppSelector((state) => state.readingList);
 
   const dispatch = useAppDispatch();
   const themeValue = localStorage.getItem('theme');
@@ -106,7 +109,7 @@ export default function Nav() {
                     <div className="text-right cursor-pointer">
                       <button
                         type="button"
-                        className="btn w-[48px] h-[35px] max-h-[35px] rounded-full p-0"
+                        className="btn w-[48px] h-[35px] max-h-[35px] rounded-full p-0 text-lg"
                         onClick={() => dispatch(removeFromWishlist(book))}
                       >
                         x
@@ -139,20 +142,46 @@ export default function Nav() {
                 <path d="M20 2H4C2.9 2 2 2.9 2 4v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H4V4h16v16zM9 19H7V5h2v14zm6 0h-2V5h2v14zm4 0h-2V5h2v14z" />
               </svg>
 
-              <span className="badge badge-sm indicator-item">8</span>
+              <span className="badge badge-sm indicator-item">
+                {totalReadingListBooks}
+              </span>
             </div>
           </label>
           <div
             tabIndex={0}
-            className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+            className="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow"
           >
             <div className="card-body">
-              <span className="font-bold text-lg">8 Items</span>
-              <span className="text-info">Subtotal: $999</span>
+              {readingListBooks?.map((book) => (
+                <div key={book.book._id} className="w-full">
+                  <div className="flex justify-between items-center w-full">
+                    <p>{book.book.title}</p>
+                    <div className="flex items-center">
+                      <span className="mr-2 border-[1px] rounded-full py-1 px-2 min-w-[max-content]">
+                        {book.status}
+                      </span>
+                      <div className="text-right cursor-pointer">
+                        <button
+                          type="button"
+                          className="btn w-[48px] h-[35px] max-h-[35px] rounded-full p-0 text-xl"
+                          onClick={() => {
+                            dispatch(removeFromReadingList(book.book));
+                          }}
+                        >
+                          x
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="divider my-1" />
+                </div>
+              ))}
               <div className="card-actions">
-                <button className="btn btn-primary btn-block" type="button">
-                  View cart
-                </button>
+                <Link to="/reading-list" className="block w-full">
+                  <button className="btn btn-primary btn-block" type="button">
+                    View Reading List
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

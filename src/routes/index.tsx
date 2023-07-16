@@ -5,6 +5,7 @@ import BookDetails from '../pages/BookDetails';
 import CreateBook from '../pages/CreateBook';
 import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
+import ReadingList from '../pages/ReadingList';
 import Signup from '../pages/Signup';
 import UpdateBook from '../pages/UpdateBook';
 import Wishlist from '../pages/Wishlist';
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: '/wishlist',
     element: <Wishlist />,
+  },
+  {
+    path: '/reading-list',
+    element: <ReadingList />,
   },
 ]);
 

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import api from './api/apiSlice';
 import booksReducer from './features/books/booksSlice';
+import readingListReducer from './features/readingList/readingListSlice';
 import userReducer from './features/user/userSlice';
 import wishlistReducer from './features/wishlist/wishlistSlice';
 
@@ -10,6 +11,7 @@ const store = configureStore({
     wishlist: wishlistReducer,
     book: booksReducer,
     user: userReducer,
+    readingList: readingListReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

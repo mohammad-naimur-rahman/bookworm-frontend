@@ -44,7 +44,7 @@ export default function BookCard({ data }: Props) {
         </div>
 
         <Link to={`/book-details/${_id}`}>
-          <button className="btn btn-primary" type="button">
+          <button className="btn btn-primary px-8 mt-2" type="button">
             Details
           </button>
         </Link>

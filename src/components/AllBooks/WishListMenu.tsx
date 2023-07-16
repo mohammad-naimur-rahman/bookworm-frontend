@@ -1,3 +1,4 @@
+import { addToReadingList } from '../../redux/features/readingList/readingListSlice';
 import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import { useAppDispatch } from '../../redux/hooks';
 import { IBook } from '../../types/globalTypes';
@@ -9,13 +10,12 @@ interface Props {
 export default function WishListMenu({ data }: Props) {
   const dispatch = useAppDispatch();
 
-  const handleWishlist = () => {
-    dispatch(addToWishlist(data));
-  };
-
   return (
     <div className="flex gap-2 pt-2 pb-1 px-3 rounded-full bg-secondary">
-      <div className="cursor-pointer" onClick={handleWishlist}>
+      <div
+        className="cursor-pointer"
+        onClick={() => dispatch(addToWishlist(data))}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-7 w-7"
@@ -31,7 +31,10 @@ export default function WishListMenu({ data }: Props) {
           />
         </svg>
       </div>
-      <div className="cursor-pointer">
+      <div
+        className="cursor-pointer"
+        onClick={() => dispatch(addToReadingList(data))}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"

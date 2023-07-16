@@ -1,21 +1,39 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import bookGenres from '../../constants';
-import { removeFromWishlist } from '../../redux/features/wishlist/wishlistSlice';
+import {
+  IBookReading,
+  removeFromReadingList,
+  updateBookFromReadingList,
+} from '../../redux/features/readingList/readingListSlice';
 import { useAppDispatch } from '../../redux/hooks';
-import { IBook } from '../../types/globalTypes';
 
 interface Props {
-  data: IBook;
+  data: IBookReading;
 }
 
-export default function WishlistCard({ data }: Props) {
-  const { _id, title, author, genre, publicationDate, image } = { ...data };
+const readingStatus = ['Will read', 'Reading', 'Completed'];
+
+export default function ReadingListCard({ data }: Props) {
+  const { book, status } = data;
+
+  const { _id, title, author, image, genre, publicationDate } = { ...book };
 
   const genreValue = bookGenres.find((g) => g.value === genre);
 
   const dispatch = useAppDispatch();
+
+  const handleReadingStatus = (e: ChangeEvent<HTMLSelectElement>) => {
+    const currentStatus = e.target.value as
+      | 'Will read'
+      | 'Reading'
+      | 'Completed';
+    if (readingStatus.includes(currentStatus)) {
+      dispatch(updateBookFromReadingList({ book, status: currentStatus }));
+    }
+  };
 
   return (
     <div className="shadow-xl relative flex rounded-lg overflow-hidden">
@@ -24,10 +42,10 @@ export default function WishlistCard({ data }: Props) {
           <img
             src={image}
             alt={title}
-            className="aspect-[9/16] w-full max-w-[200px] object-cover"
+            className="aspect-[9/16] w-full max-w-[220px] object-cover"
           />
         ) : (
-          <div className="aspect-[9/16] w-full object-cover border-[1px] border-gray-400 flex items-center justify-center">
+          <div className="aspect-[9/16] w-[220px] object-cover border-[1px] border-gray-400 flex items-center justify-center">
             <p className="text-2xl font-light">No photo</p>
           </div>
         )}
@@ -45,6 +63,17 @@ export default function WishlistCard({ data }: Props) {
           </span>
         </div>
 
+        <select
+          className="select select-primary w-full max-w-xs"
+          onChange={handleReadingStatus}
+        >
+          {readingStatus.map((value) => (
+            <option key={value} value={value} selected={value === status}>
+              {value}
+            </option>
+          ))}
+        </select>
+
         <div className="flex flex-col gap-3">
           <Link to={`/book-details/${_id}`}>
             <button className="btn btn-link" type="button">
@@ -54,7 +83,7 @@ export default function WishlistCard({ data }: Props) {
           <button
             className="btn btn-error self-start"
             type="button"
-            onClick={() => dispatch(removeFromWishlist(data))}
+            onClick={() => dispatch(removeFromReadingList(data.book))}
           >
             Remove from wishlist
           </button>
