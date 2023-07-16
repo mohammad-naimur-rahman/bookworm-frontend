@@ -20,7 +20,7 @@ interface Inputs {
   publicationDate: Date;
 }
 
-export default function CreateBook() {
+function CreateBook() {
   const { email } = useAppSelector((state) => state.user.user);
   const navigate = useNavigate();
   const [bookImg, setbookImg] = useState('');
@@ -97,8 +97,9 @@ export default function CreateBook() {
             </select>
 
             <input
-              type="date"
+              type="number"
               className="input input-bordered input-primary w-full max-w-xs"
+              placeholder="Publication Year"
               {...register('publicationDate', { required: true })}
             />
             {errors.publicationDate && (
@@ -138,3 +139,6 @@ export default function CreateBook() {
     </Layout>
   );
 }
+
+// export default withAuth(CreateBook);
+export default CreateBook;

@@ -82,8 +82,6 @@ export const createUser = createAsyncThunk(
     }
   },
 );
-
-// export const loginUser = createAsyncThunk(
 //   'user/loginUser',
 //   async ({ email, password }: ICredentials): Promise<string | null> => {
 //     const provider = new GoogleAuthProvider();
@@ -139,7 +137,6 @@ export const loginUser = createAsyncThunk(
           },
         );
         if (apiResponse.data.success) {
-          console.log(accessToken);
           localStorage.setItem('token', accessToken);
           localStorage.setItem('user-email', email);
           toast.success('Logged in successfully!');

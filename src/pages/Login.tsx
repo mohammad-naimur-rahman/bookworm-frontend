@@ -11,6 +11,24 @@ import {
 import { useAppDispatch } from '../redux/hooks';
 
 export default function Login() {
+  // const {
+  //   state: { pathname },
+  // } = useLocation();
+
+  // const navigate = useNavigate();
+
+  // const {
+  //   isLoading,
+  //   user: { email },
+  // } = useAppSelector((state) => state.user);
+
+  // useEffect(() => {
+  //   if (email && pathname && !isLoading) {
+  //     navigate(pathname);
+  //   } else if (email && !pathname && !isLoading) {
+  //     navigate('/');
+  //   }
+  // }, [email, navigate, pathname, isLoading]);
   interface Inputs {
     email: string;
     password: string;
@@ -25,6 +43,10 @@ export default function Login() {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(loginUser({ email: data.email, password: data.password }));
   };
+
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
   return (
     <Layout title="Login">
       <div className="min-h-[calc(100vh_-_80px)] flex flex-col justify-center">

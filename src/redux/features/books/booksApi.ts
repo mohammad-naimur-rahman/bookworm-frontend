@@ -3,8 +3,8 @@ import api from '../../api/apiSlice';
 const booksApi = api.injectEndpoints({
   endpoints: (build) => ({
     getBooks: build.query({
-      query: () => '/products',
-      providesTags: ['products'],
+      query: () => '/books',
+      providesTags: ['books'],
     }),
     getBook: build.query({
       query: (id) => `/product/${id}`,
@@ -18,7 +18,7 @@ const booksApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['products'],
+      invalidatesTags: ['books'],
     }),
     postComment: build.mutation({
       query: ({ id, data }) => ({

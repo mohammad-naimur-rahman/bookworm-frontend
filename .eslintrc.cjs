@@ -40,6 +40,7 @@ module.exports = {
     'no-param-reassign': 0,
     'no-underscore-dangle': 0,
     'react/jsx-props-no-spreading': 0,
+    'object-curly-newline': 0,
     'import/order': [
       'error',
       {
