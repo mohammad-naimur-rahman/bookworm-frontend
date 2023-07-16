@@ -11,4 +11,12 @@ const bookGenres: Array<IBookGenre> = [
   { label: 'Thriller', value: 'thriller' },
 ];
 
+export const sortByObj: Array<IBookGenre> = [
+  { label: 'Creation Date', value: 'createdAt' },
+  { label: 'Title', value: 'title' },
+  { label: 'Author', value: 'author' },
+  { label: 'Genre', value: 'genre' },
+  { label: 'Publication Year', value: 'publicationDate' },
+];
+
 export default bookGenres;

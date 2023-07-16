@@ -16,7 +16,9 @@ export default function BookCard({ data }: Props) {
   const genreValue = bookGenres.find((g) => g.value === genre);
 
   return (
-    <div className={`${styles.bookCard} shadow-2xl relative`}>
+    <div
+      className={`${styles.bookCard} shadow-2xl relative rounded-md overflow-hidden`}
+    >
       <div className={`${styles.wishlist} absolute right-2 top-2`}>
         <WishListMenu data={data} />
       </div>
@@ -31,7 +33,7 @@ export default function BookCard({ data }: Props) {
           <p className="text-2xl font-light">No photo</p>
         </div>
       )}
-      <div className="p-5 flex flex-col justify-between">
+      <div className="pb-5 px-5 pt-2 flex flex-col justify-between">
         <div>
           <h3 className="text-2xl py-3">{title}</h3>
           <div className="flex items-center justify-between">

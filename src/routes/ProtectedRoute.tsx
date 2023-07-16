@@ -1,33 +1,20 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { ReactNode } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '../redux/hooks';
 
-const withAuth = (WrappedComponent: React.ComponentType) => {
-  function ProtectedRoute() {
-    const {
-      isLoading,
-      user: { email },
-    } = useAppSelector((state) => state.user);
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
+interface IProps {
+  children: ReactNode;
+}
 
-    useEffect(() => {
-      if (!email) {
-        navigate('/login', { state: { pathname } });
-      }
-    }, [email, navigate, pathname]);
-
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
-
-    if (email) {
-      return <WrappedComponent />;
-    }
+export default function PrivateRoute({ children }: IProps) {
+  const { pathname } = useLocation();
+  const { isLoading, user } = useAppSelector((state) => state.user);
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
-
-  return ProtectedRoute;
-};
-
-export default withAuth;
+  if (!user.email && !isLoading) {
+    return <Navigate to="/login" state={{ path: pathname }} />;
+  }
+  return <div>{children}</div>;
+}

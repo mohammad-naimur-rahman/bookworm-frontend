@@ -51,13 +51,6 @@ const readingListSlice = createSlice({
         return { book, status };
       });
       state.books = newVal;
-      // const otherBooks = state.books.filter(
-      //   (book) => book.book._id !== action.payload.book._id,
-      // );
-      // state.books = [
-      //   ...otherBooks,
-      //   { book: action.payload.book, status: action.payload.status },
-      // ];
       toast.success('Updated book reading status!');
     },
   },

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect, useState } from 'react';
-import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
+import { BsFillSunFill, BsMoonStars, BsX } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 import { removeFromReadingList } from '../redux/features/readingList/readingListSlice';
@@ -112,7 +112,7 @@ export default function Nav() {
                         className="btn w-[48px] h-[35px] max-h-[35px] rounded-full p-0 text-lg"
                         onClick={() => dispatch(removeFromWishlist(book))}
                       >
-                        x
+                        <BsX />
                       </button>
                     </div>
                   </div>
@@ -168,7 +168,7 @@ export default function Nav() {
                             dispatch(removeFromReadingList(book.book));
                           }}
                         >
-                          x
+                          <BsX />
                         </button>
                       </div>
                     </div>

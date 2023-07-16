@@ -10,6 +10,7 @@ import bookGenres from '../constants';
 import Layout from '../layout/Layout';
 import { useCreateBookMutation } from '../redux/features/books/booksApi';
 import { useAppSelector } from '../redux/hooks';
+import withAuth from '../routes/withAuth';
 import uploadImg from '../utils/uploadImg';
 
 interface Inputs {
@@ -140,5 +141,5 @@ function CreateBook() {
   );
 }
 
-// export default withAuth(CreateBook);
-export default CreateBook;
+export default withAuth(CreateBook);
+// export default CreateBook;
