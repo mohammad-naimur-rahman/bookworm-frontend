@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import bookGenres from '../constants';
 import Layout from '../layout/Layout';
-import { useGetBookQuery } from '../redux/features/books/booksApi';
+import {
+  useDeleteBookMutation,
+  useGetBookQuery,
+} from '../redux/features/books/booksApi';
 import { useAppSelector } from '../redux/hooks';
 
 export default function BookDetails() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { isLoading, data } = useGetBookQuery(id);
   const [genreVal, setgenreVal] = useState('');
@@ -23,12 +28,27 @@ export default function BookDetails() {
     user: { email },
   } = useAppSelector((state) => state.user);
 
+  const token = localStorage.getItem('token');
+
+  const [deleteBook, { isLoading: isLoadingDeleteBook, isError, isSuccess }] =
+    useDeleteBookMutation();
+
+  const handleDeleteBook = () => {
+    deleteBook({ id, token });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/all-books');
+    }
+  }, [isSuccess, navigate]);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <Layout>
+    <Layout title={data?.data?.title}>
       <main className="flex flex-col items-center min-h-[calc(100dvh_-_80px)]">
         <h2 className="text-4xl py-10">{data?.data?.title}</h2>
         {data?.data?.image ? (
@@ -57,11 +77,18 @@ export default function BookDetails() {
                 Update book
               </button>
             </Link>
-            <button className="btn btn-error" type="button">
+            <button
+              className="btn btn-error"
+              type="button"
+              onClick={handleDeleteBook}
+            >
               Delete book
             </button>
           </div>
         ) : null}
+        {isLoadingDeleteBook ? toast.success('Deleting book...') : null}
+        {isSuccess ? toast.success('Book deleted successfully!') : null}
+        {isError ? toast.error('Book delete failed!') : null}
       </main>
     </Layout>
   );

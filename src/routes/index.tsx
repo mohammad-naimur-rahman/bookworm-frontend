@@ -7,6 +7,7 @@ import Homepage from '../pages/Homepage';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import UpdateBook from '../pages/UpdateBook';
+import Wishlist from '../pages/Wishlist';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: '/update-book/:id',
     element: <UpdateBook />,
+  },
+  {
+    path: '/wishlist',
+    element: <Wishlist />,
   },
 ]);
 

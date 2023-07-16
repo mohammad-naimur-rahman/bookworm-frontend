@@ -1,0 +1,9 @@
+.bookCard {
+  &:hover > .wishlist {
+    display: inline-block;
+  }
+
+  .wishlist {
+    display: none;
+  }
+}

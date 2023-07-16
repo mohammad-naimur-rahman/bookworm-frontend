@@ -6,6 +6,7 @@ import { BsFillSunFill, BsMoonStars } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 import { logoutUser } from '../redux/features/user/userSlice';
+import { removeFromWishlist } from '../redux/features/wishlist/wishlistSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 import logo from '@/assets/logo/bookorm-logo.png';
@@ -14,6 +15,8 @@ export default function Nav() {
   const {
     user: { email },
   } = useAppSelector((state) => state.user);
+
+  const { total, books } = useAppSelector((state) => state.wishlist);
 
   const dispatch = useAppDispatch();
   const themeValue = localStorage.getItem('theme');
@@ -30,7 +33,7 @@ export default function Nav() {
   };
 
   return (
-    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10">
+    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10 shadow-lg">
       <div className="navbar-start">
         <Link to="/">
           <div className="flex items-center cursor-pointer">
@@ -88,20 +91,37 @@ export default function Nav() {
                 />
               </svg>
 
-              <span className="badge badge-sm indicator-item">8</span>
+              <span className="badge badge-sm indicator-item">{total}</span>
             </div>
           </label>
           <div
             tabIndex={0}
-            className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+            className="mt-3 z-[1] card card-compact dropdown-content w-60 bg-base-100 shadow"
           >
             <div className="card-body">
-              <span className="font-bold text-lg">8 Items</span>
-              <span className="text-info">Subtotal: $999</span>
+              {books?.map((book) => (
+                <div key={book._id} className="w-full">
+                  <div className="flex justify-between items-center w-full">
+                    <p>{book.title}</p>
+                    <div className="text-right cursor-pointer">
+                      <button
+                        type="button"
+                        className="btn w-[48px] h-[35px] max-h-[35px] rounded-full p-0"
+                        onClick={() => dispatch(removeFromWishlist(book))}
+                      >
+                        x
+                      </button>
+                    </div>
+                  </div>
+                  <span className="divider my-1" />
+                </div>
+              ))}
               <div className="card-actions">
-                <button className="btn btn-primary btn-block" type="button">
-                  View cart
-                </button>
+                <Link to="/wishlist" className="block w-full">
+                  <button className="btn btn-primary btn-block" type="button">
+                    View Wishlist
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

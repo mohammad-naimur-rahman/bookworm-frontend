@@ -3,6 +3,6 @@ export interface IBook {
   title: string;
   author: string;
   genre: string;
-  publicationDate: Date;
+  publicationDate: string;
   image?: string;
 }

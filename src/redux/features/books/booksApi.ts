@@ -32,6 +32,16 @@ const booksApi = api.injectEndpoints({
       }),
       invalidatesTags: ['book'],
     }),
+    deleteBook: build.mutation({
+      query: ({ id, token }) => ({
+        url: `/books/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ['books'],
+    }),
     postComment: build.mutation({
       query: ({ id, data }) => ({
         url: `/comment/${id}`,
@@ -50,6 +60,7 @@ export const {
   useGetBooksQuery,
   useGetBookQuery,
   useUpdateBookMutation,
+  useDeleteBookMutation,
   usePostCommentMutation,
   useGetCommentQuery,
 } = booksApi;

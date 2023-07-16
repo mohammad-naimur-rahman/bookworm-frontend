@@ -41,6 +41,8 @@ module.exports = {
     'no-underscore-dangle': 0,
     'react/jsx-props-no-spreading': 0,
     'object-curly-newline': 0,
+    'operator-linebreak': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
     'import/order': [
       'error',
       {

@@ -6,6 +6,7 @@ export default {
       center: true,
     },
     screens: {
+      xxl: { max: '1350px' },
       xl: { max: '1200px' },
       lg: { max: '992px' },
       md: { max: '768px' },
