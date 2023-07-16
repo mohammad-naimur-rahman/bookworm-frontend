@@ -18,10 +18,16 @@ export default function BookCard({ data }: Props) {
 
   return (
     <div className="shadow-2xl p-5">
-      {image ? <img src={image} alt={title} /> : null}
-      <h3 className="text-2xl">{title}</h3>
+      {image ? (
+        <img
+          src={image}
+          alt={title}
+          className="aspect-[9/16] w-full object-cover"
+        />
+      ) : null}
+      <h3 className="text-2xl py-3">{title}</h3>
       <p className="text-xl">{author}</p>
-      <p className="text-lg">{formattedDateString}</p>
+      <p className="text-lg text-neutral">{formattedDateString}</p>
       <span className="px-5 py-1.5 bg-accent my-5 inline-block text-white rounded-full">
         {genreValue?.label}
       </span>
