@@ -26,7 +26,7 @@ interface Inputs {
 function UpdateBook() {
   const { id } = useParams();
   const { isLoading: isLoadingBook, data: bookData } = useGetBookQuery(id);
-  const { email } = useAppSelector((state) => state.user.user);
+  const { email, id: userId } = useAppSelector((state) => state.user.user);
   const navigate = useNavigate();
   const [bookImg, setbookImg] = useState('');
 
@@ -65,10 +65,24 @@ function UpdateBook() {
       toast.error('Login first!');
       return;
     }
-    const allData = { ...data, image: bookImg };
+    const allData = { ...data, image: bookImg, user: userId };
     const token = localStorage.getItem('token');
     updateBook({ data: allData, id, token });
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.success('Updating book...');
+    }
+
+    if (isSuccess) {
+      toast.success('Book updated successfully!');
+    }
+
+    if (isError) {
+      toast.error('Book update failed!');
+    }
+  }, [isLoading, isSuccess, isError]);
 
   if (isLoadingBook) {
     return <p>Loading...</p>;
@@ -155,9 +169,6 @@ function UpdateBook() {
             <img src={bookImg} alt="Book name" className="max-w-sm" />
           ) : null}
         </div>
-        {isLoading === true ? toast.success('Updating book...') : null}
-        {isSuccess === true ? toast.success('Book update successfully!') : null}
-        {isError === true ? toast.error('Book creation failed!') : null}
       </div>
     </Layout>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 import bookGenres, { sortByObj } from '../../constants';
@@ -70,7 +71,7 @@ export default function BookFiltersComponents() {
       >
         {sortByObj.map(({ label, value }) => (
           <option key={value} value={value}>
-            {label}
+            Sort by {label}
           </option>
         ))}
       </select>

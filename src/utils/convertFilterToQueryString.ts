@@ -3,8 +3,6 @@ import { IFilter } from '../redux/features/filter/filterSlice';
 const convertFilterToQueryString = (filter: IFilter) => {
   const params = new URLSearchParams();
 
-  console.log(filter);
-
   if (filter.searchQuery) {
     params.append('searchTerm', filter.searchQuery);
   }

@@ -43,6 +43,20 @@ export default function BookDetails() {
     }
   }, [isSuccess, navigate]);
 
+  useEffect(() => {
+    if (isLoadingDeleteBook) {
+      toast.success('Deleting book...');
+    }
+
+    if (isSuccess) {
+      toast.success('Book deleted successfully!');
+    }
+
+    if (isError) {
+      toast.error('Book delete failed!');
+    }
+  }, [isLoadingDeleteBook, isSuccess, isError]);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -86,13 +100,6 @@ export default function BookDetails() {
             </button>
           </div>
         ) : null}
-        {isLoadingDeleteBook === true
-          ? toast.success('Deleting book...')
-          : null}
-        {isSuccess === true
-          ? toast.success('Book deleted successfully!')
-          : null}
-        {isError === true ? toast.error('Book delete failed!') : null}
       </main>
     </Layout>
   );

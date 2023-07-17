@@ -1,7 +1,7 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import BookCard from '../components/AllBooks/BookCard';
@@ -25,7 +25,7 @@ export default function AllBooks() {
 
   const dispatch = useAppDispatch();
 
-  const searchBooks = () => {
+  const searchBooks = useCallback(() => {
     const result = convertFilterToQueryString({
       searchQuery,
       genreQuery,
@@ -34,16 +34,19 @@ export default function AllBooks() {
       sortBy,
       sortOrder,
     });
-
-    console.log(result);
     setFilters(result);
-  };
+  }, [searchQuery, genreQuery, yearQuery, pageQuery, sortBy, sortOrder]);
 
   const { data, isLoading, refetch } = useGetBooksQuery(filters);
 
   useEffect(() => {
     refetch();
-  }, [refetch, filters, pageQuery]);
+  }, [refetch, filters]);
+
+  useEffect(() => {
+    searchBooks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageQuery]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -82,7 +85,6 @@ export default function AllBooks() {
               disabled={+pageQuery! < 2}
               onClick={() => {
                 dispatch(upddatePageQuery((+pageQuery! - 1).toString()));
-                searchBooks();
               }}
             >
               Previous page
@@ -92,7 +94,6 @@ export default function AllBooks() {
               className="join-item btn btn-outline btn-success"
               onClick={() => {
                 dispatch(upddatePageQuery((+pageQuery! + 1).toString()));
-                searchBooks();
               }}
               disabled={
                 data?.meta?.page * data?.meta?.limit >= data?.meta?.total

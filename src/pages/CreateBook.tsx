@@ -21,7 +21,7 @@ interface Inputs {
 }
 
 function CreateBook() {
-  const { email } = useAppSelector((state) => state.user.user);
+  const { email, id } = useAppSelector((state) => state.user.user);
   const navigate = useNavigate();
   const [bookImg, setbookImg] = useState('');
   const {
@@ -53,10 +53,24 @@ function CreateBook() {
       toast.error('Login first!');
       return;
     }
-    const allData = { ...data, image: bookImg };
+    const allData = { ...data, image: bookImg, user: id };
     const token = localStorage.getItem('token');
     createBook({ data: allData, token });
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.success('Creating book...');
+    }
+
+    if (isSuccess) {
+      toast.success('Book creation successfully!');
+    }
+
+    if (isError) {
+      toast.error('Book created failed!');
+    }
+  }, [isLoading, isSuccess, isError]);
 
   return (
     <Layout title="Create Book">
@@ -132,11 +146,6 @@ function CreateBook() {
             <img src={bookImg} alt="Book name" className="max-w-sm" />
           ) : null}
         </div>
-        {isLoading === true ? toast.success('Creating book...') : null}
-        {isSuccess === true
-          ? toast.success('Book created successfully!')
-          : null}
-        {isError === true ? toast.error('Book creation failed!') : null}
       </div>
     </Layout>
   );
