@@ -10,7 +10,6 @@ import bookGenres from '../constants';
 import Layout from '../layout/Layout';
 import { useCreateBookMutation } from '../redux/features/books/booksApi';
 import { useAppSelector } from '../redux/hooks';
-import withAuth from '../routes/withAuth';
 import uploadImg from '../utils/uploadImg';
 
 interface Inputs {
@@ -133,13 +132,14 @@ function CreateBook() {
             <img src={bookImg} alt="Book name" className="max-w-sm" />
           ) : null}
         </div>
-        {isLoading ? toast.success('Creating book...') : null}
-        {isSuccess ? toast.success('Book created successfully!') : null}
-        {isError ? toast.error('Book creation failed!') : null}
+        {isLoading === true ? toast.success('Creating book...') : null}
+        {isSuccess === true
+          ? toast.success('Book created successfully!')
+          : null}
+        {isError === true ? toast.error('Book creation failed!') : null}
       </div>
     </Layout>
   );
 }
 
-export default withAuth(CreateBook);
-// export default CreateBook;
+export default CreateBook;

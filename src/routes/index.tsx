@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import PrivateRoute from './ProtectedRoute';
 import AllBooks from '../pages/AllBooks';
 import BookDetails from '../pages/BookDetails';
 import CreateBook from '../pages/CreateBook';
@@ -18,11 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/create-book',
-    element: (
-      <PrivateRoute>
-        <CreateBook />
-      </PrivateRoute>
-    ),
+    element: <CreateBook />,
   },
   {
     path: '/login',

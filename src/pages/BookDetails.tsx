@@ -86,9 +86,13 @@ export default function BookDetails() {
             </button>
           </div>
         ) : null}
-        {isLoadingDeleteBook ? toast.success('Deleting book...') : null}
-        {isSuccess ? toast.success('Book deleted successfully!') : null}
-        {isError ? toast.error('Book delete failed!') : null}
+        {isLoadingDeleteBook === true
+          ? toast.success('Deleting book...')
+          : null}
+        {isSuccess === true
+          ? toast.success('Book deleted successfully!')
+          : null}
+        {isError === true ? toast.error('Book delete failed!') : null}
       </main>
     </Layout>
   );

@@ -6,7 +6,7 @@ import { BsFillSunFill, BsMoonStars, BsX } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 import { removeFromReadingList } from '../redux/features/readingList/readingListSlice';
-import { logoutUser } from '../redux/features/user/userSlice';
+import { logoutUser, setUser } from '../redux/features/user/userSlice';
 import { removeFromWishlist } from '../redux/features/wishlist/wishlistSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
@@ -14,8 +14,18 @@ import logo from '@/assets/logo/bookorm-logo.png';
 
 export default function Nav() {
   const {
-    user: { email },
+    user: { name, email },
   } = useAppSelector((state) => state.user);
+
+  const initLocalUserData = { name: '', email: '' };
+
+  const [localUser, setlocalUser] = useState(initLocalUserData);
+
+  useEffect(() => {
+    if (name && email) {
+      setlocalUser({ name, email });
+    }
+  }, [name, email]);
 
   const { total, books } = useAppSelector((state) => state.wishlist);
   const { total: totalReadingListBooks, books: readingListBooks } =
@@ -32,7 +42,9 @@ export default function Nav() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(setUser({ name: '', email: '', id: '' }));
     localStorage.clear();
+    setlocalUser(initLocalUserData);
   };
 
   return (
@@ -50,19 +62,16 @@ export default function Nav() {
       <div className="navbar-center">
         <ul className="flex">
           <li className="mx-3">
+            <Link to="/">Homepage</Link>
+          </li>
+          <li className="mx-3">
             <Link to="/all-books">All Books</Link>
           </li>
           {email ? (
             <li className="mx-3">
-              <Link to="/create-book">Create book</Link>
+              <Link to="/create-book">Add new book</Link>
             </li>
           ) : null}
-          <li className="mx-3">
-            <Link to="/">Summeries</Link>
-          </li>
-          <li className="mx-3">
-            <Link to="/">Blogs</Link>
-          </li>
         </ul>
       </div>
       <div className="navbar-end">
@@ -202,6 +211,13 @@ export default function Nav() {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
+            {localUser.name ? (
+              <li className="pb-2 pl-2 font-semibold">{localUser.name}</li>
+            ) : null}
+            {localUser.email ? (
+              <li className="pl-2 italic">{localUser.email}</li>
+            ) : null}
+            {localUser.email ? <div className="divider" /> : null}
             {email ? (
               <li onClick={handleLogout}>
                 <a>logout</a>

@@ -1,10 +1,14 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Toaster } from 'react-hot-toast';
 
 import auth from '../lib/firebase';
-import { setLoading, setUser } from '../redux/features/user/userSlice';
+import {
+  ILocalUser,
+  setLoading,
+  setUser,
+} from '../redux/features/user/userSlice';
 import { useAppDispatch } from '../redux/hooks';
 import Footer from '../ui/Footer';
 import Nav from '../ui/Nav';
@@ -17,17 +21,26 @@ interface Props {
 export default function Layout({ children, title }: Props) {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  const checkAuth = useCallback(async () => {
     dispatch(setLoading(true));
     onAuthStateChanged(auth, (user) => {
       if (user?.email) {
-        dispatch(setUser(user.email));
-        dispatch(setLoading(false));
+        const userDataJSON = localStorage.getItem('user');
+        const userData: ILocalUser = userDataJSON && JSON.parse(userDataJSON);
+        const { name, email, id } = { ...userData };
+        if (email) {
+          dispatch(setLoading(false));
+          dispatch(setUser({ name, email, id }));
+        }
       } else {
         dispatch(setLoading(false));
       }
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
   return (
     <>
       <Helmet>

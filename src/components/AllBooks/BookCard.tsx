@@ -38,7 +38,7 @@ export default function BookCard({ data }: Props) {
           <h3 className="text-2xl py-3">{title}</h3>
           <div className="flex items-center justify-between">
             <p className="text-xl">{author}</p>
-            <p className="text-">{publicationDate}</p>
+            <p className="text-lg">{publicationDate}</p>
           </div>
           <span className="px-5 py-1.5 bg-accent my-5 inline-block text-white rounded-full">
             {genreValue?.label}

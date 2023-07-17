@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import {
   createUser,
-  loginUserWithGoogle,
+  createUserWithGoogle,
 } from '../redux/features/user/userSlice';
 import { useAppDispatch } from '../redux/hooks';
 
 export default function Signup() {
   interface Inputs {
+    name: string;
     email: string;
     password: string;
   }
@@ -23,8 +24,15 @@ export default function Signup() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(createUser({ email: data.email, password: data.password }));
+    dispatch(
+      createUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      }),
+    );
   };
+
   return (
     <Layout title="Signup">
       <div className="min-h-[calc(100vh_-_80px)] flex flex-col justify-center">
@@ -37,20 +45,30 @@ export default function Signup() {
         >
           <input
             type="text"
-            placeholder="email"
+            placeholder="Full Name"
+            className="input input-bordered w-full max-w-xs input-primary"
+            {...register('name', { required: true })}
+          />
+          {errors.email && <p className="text-red-600">Email is required</p>}
+
+          <input
+            type="email"
+            placeholder="Email"
             className="input input-bordered w-full max-w-xs input-primary"
             {...register('email', { required: true })}
           />
           {errors.email && <p className="text-red-600">Email is required</p>}
+
           <input
             type="password"
-            placeholder="password"
+            placeholder="Password"
             className="input input-bordered w-full max-w-xs input-primary"
             {...register('password', { required: true })}
           />
           {errors.password && (
             <p className="text-red-600">Password is required</p>
           )}
+
           <button className="btn btn-primary px-12" type="submit">
             Signup
           </button>
@@ -66,7 +84,7 @@ export default function Signup() {
           <button
             className="btn btn-accent"
             type="button"
-            onClick={() => dispatch(loginUserWithGoogle())}
+            onClick={() => dispatch(createUserWithGoogle())}
           >
             <div className="flex justify-between items-center">
               <p className="pr-8">Signup with google</p>

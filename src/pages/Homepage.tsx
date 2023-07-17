@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 
+import BookCard from '../components/AllBooks/BookCard';
 import Layout from '../layout/Layout';
+import { useGetBooksQuery } from '../redux/features/books/booksApi';
+import { IBook } from '../types/globalTypes';
 
 import heroBook2 from '@/assets/images/eat-that-frog.jpg';
 import frame7 from '@/assets/images/frames/Frame-1-10.png';
@@ -13,6 +16,7 @@ import frame2 from '@/assets/images/frames/Frame-3-12.png';
 import heroBook1 from '@/assets/images/power-of-habit.jpg';
 
 export default function Homepage() {
+  const { data, isLoading } = useGetBooksQuery('');
   return (
     <Layout>
       <div className="flex items-center justify-center min-h-[calc(100vh_-_80px)] relative">
@@ -77,6 +81,21 @@ export default function Homepage() {
             />
           </div>
         </section>
+      </div>
+
+      {isLoading ? <p>Loading...</p> : null}
+      <h2 className="text-center py-10 text-5xl">Latest books</h2>
+      <section className="sm:px-0 grid grid-cols-4 xxl:grid-cols-3 xl:grid-cols-2 sm:grid-cols-1 gap-6 xxl:gap-5 xl:gap-4 md:gap-3 sm:gap-6 pb-20">
+        {data?.data?.map((book: IBook) => (
+          <BookCard key={book._id} data={book} />
+        ))}
+      </section>
+      <div className="flex justify-center">
+        <Link to="/all-books">
+          <button className="btn btn-success btn-lg mb-20" type="button">
+            Browse All Books
+          </button>
+        </Link>
       </div>
     </Layout>
   );

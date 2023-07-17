@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable implicit-arrow-linebreak */
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import BookCard from '../components/AllBooks/BookCard';
 import BookFiltersComponents from '../components/AllBooks/BookFiltersComponents';
@@ -15,6 +16,10 @@ import convertFilterToQueryString from '../utils/convertFilterToQueryString';
 export default function AllBooks() {
   const { searchQuery, genreQuery, yearQuery, pageQuery, sortBy, sortOrder } =
     useAppSelector((state) => state.filter);
+
+  const {
+    user: { email },
+  } = useAppSelector((state) => state.user);
 
   const [filters, setFilters] = useState<string | undefined>(undefined);
 
@@ -95,6 +100,15 @@ export default function AllBooks() {
             >
               Next
             </button>
+          </div>
+        ) : null}
+        {email ? (
+          <div className="flex justify-center">
+            <Link to="/create-book">
+              <button className="btn btn-success btn-lg mb-20" type="button">
+                Add New Book
+              </button>
+            </Link>
           </div>
         ) : null}
       </div>

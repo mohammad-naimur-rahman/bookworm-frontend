@@ -155,13 +155,12 @@ function UpdateBook() {
             <img src={bookImg} alt="Book name" className="max-w-sm" />
           ) : null}
         </div>
-        {isLoading ? toast.success('Updating book...') : null}
-        {isSuccess ? toast.success('Book update successfully!') : null}
-        {isError ? toast.error('Book creation failed!') : null}
+        {isLoading === true ? toast.success('Updating book...') : null}
+        {isSuccess === true ? toast.success('Book update successfully!') : null}
+        {isError === true ? toast.error('Book creation failed!') : null}
       </div>
     </Layout>
   );
 }
 
-// export default withAuth(CreateBook);
 export default UpdateBook;
