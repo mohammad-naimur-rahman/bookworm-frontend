@@ -2,7 +2,7 @@
 
 📚 Bookworm is a book listing application where users can share their favorite books with the world. It offers various features such as book listing, wishlist, and reading list functionalities. The application includes authentication and authorization systems to ensure protection from unwanted actions. Explore the live application to discover more about its capabilities!
 
-####This is the frontend part of the application
+#### This is the frontend part of the application
 
 ## Live Links
 
