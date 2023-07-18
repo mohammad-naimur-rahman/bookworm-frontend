@@ -8,9 +8,9 @@ export default function Wishlist() {
   return (
     <Layout title="Wishlist">
       <div className="container min-h-[calc(100dvh_-_80px)]">
-        <h2 className="text-4xl text-center py-10">Wishlist</h2>
-        <h3 className="text-3xl">Total Books: {total}</h3>
-        <div className="grid grid-cols-2 gap-5 py-10">
+        <h2 className="text-4xl md:text-2xl text-center py-10">Wishlist</h2>
+        <h3 className="text-3xl md:text-xl">Total Books: {total}</h3>
+        <div className="grid grid-cols-2 gap-5 py-10 xl:grid-cols-1">
           {books?.map((book) => <WishlistCard key={book._id} data={book} />)}
         </div>
       </div>

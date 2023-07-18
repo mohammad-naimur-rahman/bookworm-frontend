@@ -35,9 +35,9 @@ export default function BookCard({ data }: Props) {
       )}
       <div className="pb-5 px-5 pt-2 flex flex-col justify-between">
         <div>
-          <h3 className="text-2xl py-3">{title}</h3>
+          <h3 className="text-2xl md:text-xl py-3">{title}</h3>
           <div className="flex items-center justify-between">
-            <p className="text-xl">{author}</p>
+            <p className="text-xl md:text-lg">{author}</p>
             <p className="text-lg">{publicationDate}</p>
           </div>
           <span className="px-5 py-1.5 bg-accent my-5 inline-block text-white rounded-full">
@@ -46,7 +46,7 @@ export default function BookCard({ data }: Props) {
         </div>
 
         <Link to={`/book-details/${_id}`}>
-          <button className="btn btn-primary px-8 mt-2" type="button">
+          <button className="btn btn-primary px-12 mt-2" type="button">
             Details
           </button>
         </Link>

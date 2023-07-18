@@ -15,82 +15,92 @@ export default function BookFiltersComponents() {
   const dispatch = useAppDispatch();
   return (
     <>
-      <input
-        type="text"
-        placeholder="Search books..."
-        className="input input-bordered input-success w-1/6 mb-10"
-        onChange={(e) => dispatch(updateSearchQuery(e.target.value))}
-      />
+      <div className="w-1/6 xl:w-1/3 md:w-1/2 sm:w-full px-1 pb-2">
+        <input
+          type="text"
+          placeholder="Search books..."
+          className="input input-bordered input-success w-full"
+          onChange={(e) => dispatch(updateSearchQuery(e.target.value))}
+        />
+      </div>
 
-      <select
-        className="select select-success w-1/6"
-        onChange={(e) =>
-          dispatch(
-            updateGenreQuery(
-              e.target.value as
-                | ''
-                | 'thriller'
-                | 'fantasy'
-                | 'science_fiction'
-                | 'mystery'
-                | 'fiction',
+      <div className="w-1/6 xl:w-1/3 md:w-1/2 sm:w-full pb-2 px-1">
+        <select
+          className="select select-success w-full"
+          onChange={(e) =>
+            dispatch(
+              updateGenreQuery(
+                e.target.value as
+                  | ''
+                  | 'thriller'
+                  | 'fantasy'
+                  | 'science_fiction'
+                  | 'mystery'
+                  | 'fiction',
+              ),
+            )
+          }
+        >
+          {[{ label: 'All Genre', value: '' }, ...bookGenres].map(
+            ({ label, value }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
             ),
-          )
-        }
-      >
-        {[{ label: 'All Genre', value: '' }, ...bookGenres].map(
-          ({ label, value }) => (
+          )}
+        </select>
+      </div>
+
+      <div className="w-1/6 xl:w-1/3 md:w-1/2 sm:w-full pb-2 px-1">
+        <input
+          type="number"
+          placeholder="Publication Year"
+          className="input input-bordered input-success w-full"
+          onChange={(e) => dispatch(updateYearQuery(e.target.value))}
+        />
+      </div>
+
+      <div className="w-1/6 xl:w-1/3 md:w-1/2 sm:w-full pb-2 px-1">
+        <select
+          className="select select-success w-full"
+          onChange={(e) =>
+            dispatch(
+              updateSortByQuery(
+                e.target.value as
+                  | 'createdAt'
+                  | 'author'
+                  | 'publicationDate'
+                  | 'genre'
+                  | 'title',
+              ),
+            )
+          }
+        >
+          {sortByObj.map(({ label, value }) => (
+            <option key={value} value={value}>
+              Sort by {label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="w-1/6 xl:w-1/3 md:w-1/2 sm:w-full pb-2 px-1">
+        <select
+          className="select select-success w-full"
+          onChange={(e) =>
+            dispatch(upddateSortOrderQuery(e.target.value as 'asc' | 'desc'))
+          }
+        >
+          {[
+            { label: 'Descending', value: 'desc' },
+            { label: 'Ascending', value: 'asc' },
+          ].map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>
-          ),
-        )}
-      </select>
-
-      <input
-        type="number"
-        placeholder="Publication Year"
-        className="input input-bordered input-success w-1/6 mb-10"
-        onChange={(e) => dispatch(updateYearQuery(e.target.value))}
-      />
-
-      <select
-        className="select select-success w-1/6"
-        onChange={(e) =>
-          dispatch(
-            updateSortByQuery(
-              e.target.value as
-                | 'createdAt'
-                | 'author'
-                | 'publicationDate'
-                | 'genre'
-                | 'title',
-            ),
-          )
-        }
-      >
-        {sortByObj.map(({ label, value }) => (
-          <option key={value} value={value}>
-            Sort by {label}
-          </option>
-        ))}
-      </select>
-
-      <select
-        className="select select-success w-1/6"
-        onChange={(e) =>
-          dispatch(upddateSortOrderQuery(e.target.value as 'asc' | 'desc'))
-        }
-      >
-        {[
-          { label: 'Descending', value: 'desc' },
-          { label: 'Ascending', value: 'asc' },
-        ].map(({ label, value }) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
+          ))}
+        </select>
+      </div>
     </>
   );
 }

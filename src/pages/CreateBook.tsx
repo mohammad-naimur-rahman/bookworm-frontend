@@ -74,8 +74,8 @@ function CreateBook() {
 
   return (
     <Layout title="Create Book">
-      <div className="min-h-[calc(100dvh_-_80px)] flex">
-        <div className="w-1/2">
+      <div className="min-h-[calc(100dvh_-_80px)] flex md:flex-col">
+        <div className="w-1/2 md:w-full">
           <h2 className="text-3xl pb-7 pt-12">Create book</h2>
           <form
             className="flex flex-col gap-3 items-start pb-10"
@@ -141,9 +141,16 @@ function CreateBook() {
             </button>
           </form>
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 md:w-full">
           {bookImg ? (
-            <img src={bookImg} alt="Book name" className="max-w-sm" />
+            <>
+              <p className="pl-2 pt-5 text-2xl md:text-xl">Preview Image</p>
+              <img
+                src={bookImg}
+                alt="Book name"
+                className="max-w-sm w-full py-5"
+              />
+            </>
           ) : null}
         </div>
       </div>

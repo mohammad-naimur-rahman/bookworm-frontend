@@ -116,7 +116,7 @@ export default function BookDetails() {
   return (
     <Layout title={data?.data?.title}>
       <main className="flex flex-col items-center min-h-[calc(100dvh_-_80px)]">
-        <h2 className="text-4xl py-10">{data?.data?.title}</h2>
+        <h2 className="text-4xl md:text-2xl py-10">{data?.data?.title}</h2>
         {data?.data?.image ? (
           <img
             src={data?.data?.image}
@@ -124,23 +124,23 @@ export default function BookDetails() {
             className="max-w-[500px]"
           />
         ) : null}
-        <div className="flex text-2xl pt-10">
+        <div className="flex text-2xl md:text-xl pt-10">
           <h3 className="font-semibold pr-5">Author:</h3>
           <p>{data?.data?.author}</p>
         </div>
-        <div className="flex text-2xl py-2">
+        <div className="flex text-2xl md:text-xl py-2">
           <h3 className="font-semibold pr-5">Genre:</h3>
           <p>{genreVal}</p>
         </div>
-        <div className="flex text-2xl py-2">
+        <div className="flex text-2xl md:text-xl py-2">
           <h3 className="font-semibold pr-5">Publication Year:</h3>
           <p>{data?.data?.publicationDate}</p>
         </div>
 
-        <h2 className="text-3xl pt-10 pb-5">Reviews</h2>
+        <h2 className="text-3xl md:text-2xl pt-10 pb-5">Reviews</h2>
 
         <form
-          className="flex gap-5 items-center pb-10"
+          className="flex flex-wrap gap-5 items-center pb-10"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col">
@@ -165,8 +165,10 @@ export default function BookDetails() {
                 key={review._id}
                 className="flex flex-col gap-2 mb-5 text-left"
               >
-                <h3 className="text-xl text-secondary">{review.user.name}</h3>
-                <p className="text-lg">{review.review}</p>
+                <h3 className="text-xl md:text-lg text-secondary">
+                  {review.user.name}
+                </h3>
+                <p className="text-lg md:text-base">{review.review}</p>
               </div>
             ))}
           </div>

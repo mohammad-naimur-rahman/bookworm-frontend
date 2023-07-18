@@ -56,15 +56,17 @@ export default function AllBooks() {
       <div className="container min-h-[calc(100dvh_-_80px)]">
         <h1 className="text-4xl text-center py-10">All Books</h1>
 
-        <div className="flex gap-5 w-full">
+        <div className="flex sm:flex-col xl:flex-wrap mb-10 w-full">
           <BookFiltersComponents />
-          <button
-            className="btn btn-success w-1/6 mb-10"
-            type="button"
-            onClick={searchBooks}
-          >
-            Search Books
-          </button>
+          <div className="w-1/6 xl:w-1/3 md:w-1/2 sm:w-full px-1 pb-2">
+            <button
+              className="btn btn-success w-full"
+              type="button"
+              onClick={searchBooks}
+            >
+              Search Books
+            </button>
+          </div>
         </div>
 
         <section className="sm:px-0 grid grid-cols-4 xxl:grid-cols-3 xl:grid-cols-2 sm:grid-cols-1 gap-6 xxl:gap-5 xl:gap-4 md:gap-3 sm:gap-6 pb-20">

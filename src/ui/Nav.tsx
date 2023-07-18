@@ -48,18 +48,19 @@ export default function Nav() {
   };
 
   return (
-    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10 shadow-lg">
-      <div className="navbar-start">
+    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10 shadow-lg drawer flex justify-between">
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="navbar-start md:w-20">
         <Link to="/">
           <div className="flex items-center cursor-pointer">
             <img src={logo} alt="bookworm" className="w-20 h-auto" />
-            <p className="text-secondary text-3xl italic ml-3 font-bold">
+            <p className="text-secondary text-3xl italic ml-3 font-bold md:hidden">
               Bookworm
             </p>
           </div>
         </Link>
       </div>
-      <div className="navbar-center">
+      <div className="navbar-center lg:hidden">
         <ul className="flex">
           <li className="mx-3">
             <Link to="/">Homepage</Link>
@@ -74,17 +75,19 @@ export default function Nav() {
           ) : null}
         </ul>
       </div>
-      <div className="navbar-end">
-        <BsFillSunFill />
-        <input
-          type="checkbox"
-          className="toggle mx-2"
-          onChange={() => {
-            settheme(theme === 'night' ? 'light' : 'night');
-          }}
-          checked={theme === 'night'}
-        />
-        <BsMoonStars />
+      <div className="navbar-end md:w-[calc(100%_-_80px)]">
+        <div className="flex items-center xsm:hidden">
+          <BsFillSunFill />
+          <input
+            type="checkbox"
+            className="toggle mx-2"
+            onChange={() => {
+              settheme(theme === 'night' ? 'light' : 'night');
+            }}
+            checked={theme === 'night'}
+          />
+          <BsMoonStars />
+        </div>
         <div className="dropdown dropdown-end ml-5">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <div className="indicator">
@@ -108,7 +111,7 @@ export default function Nav() {
           </label>
           <div
             tabIndex={0}
-            className="mt-3 z-[1] card card-compact dropdown-content w-60 bg-base-100 shadow"
+            className="mt-3 z-[1] card card-compact dropdown-content w-60 bg-base-100 shadow xxsm:-left-10"
           >
             <div className="card-body">
               {books?.map((book) => (
@@ -158,7 +161,7 @@ export default function Nav() {
           </label>
           <div
             tabIndex={0}
-            className="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow"
+            className="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow xsm:-left-40"
           >
             <div className="card-body">
               {readingListBooks?.map((book) => (
@@ -234,7 +237,11 @@ export default function Nav() {
             )}
           </ul>
         </div>
-        <label tabIndex={0} className="btn btn-ghost btn-circle">
+        <label
+          tabIndex={0}
+          htmlFor="my-drawer"
+          className="btn btn-ghost btn-circle hidden lg:flex"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -250,6 +257,40 @@ export default function Nav() {
             />
           </svg>
         </label>
+      </div>
+
+      <div className="drawer-side z-20">
+        <label htmlFor="my-drawer" className="drawer-overlay" />
+        <ul className="menu p-4 w-60 h-full bg-base-200 text-base-content">
+          <li className="mx-3 text-2xl text-center text-secondary font-bold italic">
+            Bookworm
+          </li>
+          <div className="divider" />
+          <div className="hidden items-center xsm:flex mx-auto">
+            <BsFillSunFill />
+            <input
+              type="checkbox"
+              className="toggle mx-2"
+              onChange={() => {
+                settheme(theme === 'night' ? 'light' : 'night');
+              }}
+              checked={theme === 'night'}
+            />
+            <BsMoonStars />
+          </div>
+          <div className="divider hidden xsm:flex" />
+          <li className="mx-3 text-lg">
+            <Link to="/">Homepage</Link>
+          </li>
+          <li className="mx-3 text-lg">
+            <Link to="/all-books">All Books</Link>
+          </li>
+          {email ? (
+            <li className="mx-3 text-lg">
+              <Link to="/create-book">Add new book</Link>
+            </li>
+          ) : null}
+        </ul>
       </div>
     </nav>
   );
