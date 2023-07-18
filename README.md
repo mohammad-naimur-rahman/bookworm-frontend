@@ -21,7 +21,7 @@
 ✨ Fully dynamic application with modern technology stack\
 🔒 Authentication and authorization system\
 📖 Book listing and ownership for easy updating and deletion\
-🌗 Persistant dark mode and light mode for enhanced user experience\
+🌗 Persistent dark mode and light mode for enhanced user experience\
 📱 Fully responsive design, optimized for screen sizes up to iPhone 5\
 🔍 Pagination, searching, and advanced filtering for finding desired books\
 ⚛️ Built with TypeScript for enhanced type safety and code quality
@@ -63,16 +63,17 @@ pnpm install
 
 3. Create `.env` and put necessary values (Follow `.env.example`)
 
-4. Run locally in development server
+4. Run locally in the development server
 
 ```bash
 pnpm dev
 ```
 
-5. Go to `http:localhost:3000` to access the project
-1.
-1. For running the backend part, follow the instructions from [the backend repository](https://github.com/mohammad-naimur-rahman/bookworm-backend)
+5. Go to `http://localhost:3000` to access the project
 
-If you find this project useful or interesting, don't forget to star the repository 🌟! Collaborators are also welcome to contribute and improve the project 💗
+6. For running the backend part, follow the instructions from [the backend repository](https://github.com/mohammad-naimur-rahman/bookworm-backend)
+
+If you find this project useful or interesting, don't forget to give a star to the repository! 🌟
+Collaborators are also welcome to contribute and improve the project! 💗
 
 🌟🤝 Happy book listing with Bookworm!
