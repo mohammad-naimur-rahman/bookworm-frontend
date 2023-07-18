@@ -1,20 +1,34 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-
-import { useAppSelector } from '../redux/hooks';
 
 interface IProps {
   children: ReactNode;
 }
 
-export default function PrivateRoute({ children }: IProps) {
+export default function ProtectedRoute({ children }: IProps) {
   const { pathname } = useLocation();
-  const { isLoading, user } = useAppSelector((state) => state.user);
+
+  const [isLoading, setisLoading] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setisLoggedIn(true);
+      setisLoading(false);
+    } else {
+      setisLoading(false);
+      setisLoading(false);
+    }
+  }, []);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  if (!user.email && !isLoading) {
-    return <Navigate to="/login" state={{ path: pathname }} />;
+
+  if (!isLoggedIn && !isLoading) {
+    return <Navigate to="/login" state={{ pathname }} />;
   }
+
   return <div>{children}</div>;
 }

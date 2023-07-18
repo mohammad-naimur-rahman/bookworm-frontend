@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { BsGoogle } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from '../layout/Layout';
 import {
@@ -11,6 +11,8 @@ import {
 import { useAppDispatch } from '../redux/hooks';
 
 export default function Signup() {
+  const { state } = useLocation();
+  const navigate = useNavigate();
   interface Inputs {
     name: string;
     email: string;
@@ -30,7 +32,23 @@ export default function Signup() {
         email: data.email,
         password: data.password,
       }),
-    );
+    ).then(() => {
+      if (state?.pathname) {
+        navigate(state?.pathname);
+      } else {
+        navigate('/');
+      }
+    });
+  };
+
+  const handleGoogleLogin = () => {
+    dispatch(createUserWithGoogle()).then(() => {
+      if (state?.pathname) {
+        navigate(state?.pathname);
+      } else {
+        navigate('/');
+      }
+    });
   };
 
   return (
@@ -84,7 +102,7 @@ export default function Signup() {
           <button
             className="btn btn-accent"
             type="button"
-            onClick={() => dispatch(createUserWithGoogle())}
+            onClick={handleGoogleLogin}
           >
             <div className="flex justify-between items-center">
               <p className="pr-8">Signup with google</p>

@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { BsGoogle } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
 
 import Layout from '../layout/Layout';
 import {
@@ -11,24 +12,9 @@ import {
 import { useAppDispatch } from '../redux/hooks';
 
 export default function Login() {
-  // const {
-  //   state: { pathname },
-  // } = useLocation();
+  const { state } = useLocation();
 
-  // const navigate = useNavigate();
-
-  // const {
-  //   isLoading,
-  //   user: { email },
-  // } = useAppSelector((state) => state.user);
-
-  // useEffect(() => {
-  //   if (email && pathname && !isLoading) {
-  //     navigate(pathname);
-  //   } else if (email && !pathname && !isLoading) {
-  //     navigate('/');
-  //   }
-  // }, [email, navigate, pathname, isLoading]);
+  const navigate = useNavigate();
   interface Inputs {
     email: string;
     password: string;
@@ -41,12 +27,31 @@ export default function Login() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(loginUser({ email: data.email, password: data.password }));
+    dispatch(loginUser({ email: data.email, password: data.password })).then(
+      () => {
+        if (state?.pathname) {
+          navigate(state?.pathname);
+        } else {
+          navigate('/');
+        }
+      },
+    );
   };
 
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
+  const handleSignUpWithGoogle = async () => {
+    try {
+      await dispatch(loginUserWithGoogle());
+
+      if (state?.pathname) {
+        redirect(state?.pathname);
+      } else {
+        redirect('/');
+      }
+    } catch (error) {
+      toast.error('Login failed!');
+    }
+  };
+
   return (
     <Layout title="Login">
       <div className="min-h-[calc(100vh_-_80px)] flex flex-col justify-center">
@@ -88,7 +93,7 @@ export default function Login() {
           <button
             className="btn btn-accent"
             type="button"
-            onClick={() => dispatch(loginUserWithGoogle())}
+            onClick={handleSignUpWithGoogle}
           >
             <div className="flex justify-between items-center">
               <p className="pr-8">Login with google</p>

@@ -47,8 +47,28 @@ export default function Nav() {
     setlocalUser(initLocalUserData);
   };
 
+  const [scrollYValue, setScrollYValue] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollYValue(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="navbar bg-base-100 pl-8 fixed top-0 left-0 w-full z-10 shadow-lg drawer flex justify-between">
+    <nav
+      className={`navbar pl-8 fixed top-0 left-0 w-full z-10 drawer flex justify-between ${
+        scrollYValue > 0
+          ? 'shadow-lg backdrop-blur-md bg-base-100 bg-opacity-50'
+          : ''
+      }`}
+    >
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="navbar-start md:w-20">
         <Link to="/">

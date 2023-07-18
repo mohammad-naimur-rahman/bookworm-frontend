@@ -64,7 +64,7 @@ export default function ReadingListCard({ data }: Props) {
         </div>
 
         <select
-          className="select select-primary w-full max-w-xs"
+          className="select select-primary w-48 max-w-xs"
           onChange={handleReadingStatus}
         >
           {readingStatus.map((value) => (
