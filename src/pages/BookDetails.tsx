@@ -27,6 +27,7 @@ export default function BookDetails() {
       }
     }
   }, [data?.data?.genre]);
+
   const {
     user: { email },
   } = useAppSelector((state) => state.user);
@@ -37,6 +38,10 @@ export default function BookDetails() {
     useDeleteBookMutation();
 
   const handleDeleteBook = () => {
+    if (!token) {
+      toast.error('Login first!');
+      return;
+    }
     deleteBook({ id, token });
   };
 
@@ -69,6 +74,7 @@ export default function BookDetails() {
   const onSubmit: SubmitHandler<Inputs> = (reviewData) => {
     if (!token) {
       toast.error('Login first!');
+      return;
     }
     postReview({ id, data: reviewData, token });
   };
@@ -180,9 +186,9 @@ export default function BookDetails() {
 
         {email ? (
           <div className="flex gap-5 py-10">
-            <Link to={`/update-book/${id}`}>
+            <Link to={`/edit-book/${id}`}>
               <button className="btn btn-primary" type="button">
-                Update book
+                Edit book
               </button>
             </Link>
             <button

@@ -107,7 +107,7 @@ export default function AllBooks() {
         ) : null}
         {email ? (
           <div className="flex justify-center">
-            <Link to="/create-book">
+            <Link to="/add-new-book">
               <button className="btn btn-success btn-lg mb-20" type="button">
                 Add New Book
               </button>

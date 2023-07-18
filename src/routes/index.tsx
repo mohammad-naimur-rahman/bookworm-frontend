@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <Homepage />,
   },
   {
-    path: '/create-book',
+    path: '/add-new-book',
     element: (
       <ProtectedRoute>
         <CreateBook />
@@ -41,8 +41,12 @@ const router = createBrowserRouter([
     element: <BookDetails />,
   },
   {
-    path: '/update-book/:id',
-    element: <UpdateBook />,
+    path: '/edit-book/:id',
+    element: (
+      <ProtectedRoute>
+        <UpdateBook />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/wishlist',

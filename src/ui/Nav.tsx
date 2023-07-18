@@ -90,7 +90,7 @@ export default function Nav() {
           </li>
           {email ? (
             <li className="mx-3">
-              <Link to="/create-book">Add new book</Link>
+              <Link to="/add-new-book">Add new book</Link>
             </li>
           ) : null}
         </ul>
@@ -307,7 +307,7 @@ export default function Nav() {
           </li>
           {email ? (
             <li className="mx-3 text-lg">
-              <Link to="/create-book">Add new book</Link>
+              <Link to="/add-new-book">Add new book</Link>
             </li>
           ) : null}
         </ul>
