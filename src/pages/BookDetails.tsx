@@ -29,7 +29,7 @@ export default function BookDetails() {
   }, [data?.data?.genre]);
 
   const {
-    user: { email },
+    user: { email, id: userId },
   } = useAppSelector((state) => state.user);
 
   const token = localStorage.getItem('token');
@@ -181,10 +181,10 @@ export default function BookDetails() {
         ) : null}
 
         {data?.data?.reviews?.length === 0 ? (
-          <p className="text-xl italic">No review for this book yet</p>
+          <p className="text-xl italic pb-10">No review for this book yet</p>
         ) : null}
 
-        {email ? (
+        {email && userId === data?.data?.user ? (
           <div className="flex gap-5 py-10">
             <Link to={`/edit-book/${id}`}>
               <button className="btn btn-primary" type="button">
