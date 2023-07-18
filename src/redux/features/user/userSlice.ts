@@ -66,7 +66,7 @@ export const createUser = createAsyncThunk(
         email,
         password,
       );
-      let id;
+      let id: string = '';
       const { user } = response;
       if (user) {
         user.getIdToken().then((accessToken) => {
@@ -104,7 +104,7 @@ export const createUser = createAsyncThunk(
             });
         });
       }
-      return { name: user.displayName!, email: user.email!, id: id! };
+      return { name: user.displayName!, email: user.email!, id };
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -126,7 +126,7 @@ export const loginUser = createAsyncThunk(
       const provider = new GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       const response = await signInWithEmailAndPassword(auth, email, password);
-      let id;
+      let id: string = '';
       const { user } = response;
       if (user) {
         const accessToken = await user.getIdToken();
@@ -155,7 +155,7 @@ export const loginUser = createAsyncThunk(
           toast.error('Login failed!');
         }
       }
-      return { name: user.displayName!, email: user.email!, id: id! };
+      return { name: user.displayName!, email: user.email!, id };
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -175,7 +175,7 @@ export const loginUserWithGoogle = createAsyncThunk(
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       const response = await signInWithPopup(auth, provider);
       const { user } = response;
-      let id;
+      let id: string = '';
       if (user) {
         user.getIdToken().then((accessToken) => {
           axios
@@ -212,7 +212,7 @@ export const loginUserWithGoogle = createAsyncThunk(
             });
         });
       }
-      return { name: user.displayName!, email: user.email!, id: id! };
+      return { name: user.displayName!, email: user.email!, id };
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
@@ -231,7 +231,7 @@ export const createUserWithGoogle = createAsyncThunk(
       const provider = new GoogleAuthProvider();
       provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       const response = await signInWithPopup(auth, provider);
-      let id;
+      let id: string = '';
       const { user } = response;
       if (user) {
         user.getIdToken().then((accessToken) => {
@@ -269,7 +269,7 @@ export const createUserWithGoogle = createAsyncThunk(
             });
         });
       }
-      return { name: user.displayName!, email: user.email!, id: id! };
+      return { name: user.displayName!, email: user.email!, id };
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message);
