@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -7,8 +8,10 @@ import Layout from '../layout/Layout';
 import {
   useDeleteBookMutation,
   useGetBookQuery,
+  usePostReviewMutation,
 } from '../redux/features/books/booksApi';
 import { useAppSelector } from '../redux/hooks';
+import { IReview } from '../types/globalTypes';
 
 export default function BookDetails() {
   const navigate = useNavigate();
@@ -43,6 +46,33 @@ export default function BookDetails() {
     }
   }, [isSuccess, navigate]);
 
+  const [
+    postReview,
+    {
+      isLoading: isLoadingPostReview,
+      isSuccess: isSuccessPostReview,
+      isError: isErrorPostReview,
+    },
+  ] = usePostReviewMutation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
+
+  interface Inputs {
+    review: string;
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = (reviewData) => {
+    if (!token) {
+      toast.error('Login first!');
+    }
+    postReview({ id, data: reviewData, token });
+  };
+
   useEffect(() => {
     if (isLoadingDeleteBook) {
       toast.success('Deleting book...');
@@ -55,7 +85,29 @@ export default function BookDetails() {
     if (isError) {
       toast.error('Book delete failed!');
     }
-  }, [isLoadingDeleteBook, isSuccess, isError]);
+
+    if (isLoadingPostReview) {
+      toast.success('Posting review...');
+    }
+
+    if (isSuccessPostReview) {
+      toast.success('Review posted successfully!');
+      reset();
+    }
+
+    if (isErrorPostReview) {
+      toast.error('Post review failed!');
+      reset();
+    }
+  }, [
+    isLoadingDeleteBook,
+    isSuccess,
+    isError,
+    isLoadingPostReview,
+    isSuccessPostReview,
+    isErrorPostReview,
+    reset,
+  ]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -84,6 +136,46 @@ export default function BookDetails() {
           <h3 className="font-semibold pr-5">Publication Year:</h3>
           <p>{data?.data?.publicationDate}</p>
         </div>
+
+        <h2 className="text-3xl pt-10 pb-5">Reviews</h2>
+
+        <form
+          className="flex gap-5 items-center pb-10"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="flex flex-col">
+            <textarea
+              placeholder="Write your review"
+              className="textarea textarea-accent max-w-sm w-80"
+              {...register('review', { required: true })}
+            />
+            {errors.review && (
+              <span className="text-error mt-2">Review is required</span>
+            )}
+          </div>
+          <button type="submit" className="btn btn-accent px-8">
+            Submit
+          </button>
+        </form>
+
+        {data?.data?.reviews ? (
+          <div className="max-w-[900px]">
+            {data?.data?.reviews?.map((review: IReview) => (
+              <div
+                key={review._id}
+                className="flex flex-col gap-2 mb-5 text-left"
+              >
+                <h3 className="text-xl text-secondary">{review.user.name}</h3>
+                <p className="text-lg">{review.review}</p>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {data?.data?.reviews?.length === 0 ? (
+          <p className="text-xl italic">No review for this book yet</p>
+        ) : null}
+
         {email ? (
           <div className="flex gap-5 py-10">
             <Link to={`/update-book/${id}`}>
